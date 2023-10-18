@@ -1,0 +1,48 @@
+.rightBundle,
+.leftBundle {
+  position: sticky;
+}
+
+.navbar-top {
+  width: 100%;
+}
+
+.navbar-filter {
+  width: 100%;
+  padding: 0;
+}
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: white;
+}
+
+.navbar2 {
+  top: 100px;
+  z-index: 500;
+  background-color: rgb(255, 0, 0);
+}
+#controlled-tab-example-tab-products,
+#controlled-tab-example-tab-order,
+#controlled-tab-example-tab-user,
+#controlled-tab-example-tab-admin,
+#controlled-tab-example-tab-contact {
+  color: black;
+  margin-top: 5px;
+}
+#catalogueTitle {
+  text-align: center;
+  letter-spacing: 15px;
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(249, 213, 192);
+  color: rgb(0, 0, 0) !important;
+  text-shadow: -1px 0px 7px rgba(255, 0, 0, 0.411),
+    0px -13px 13px rgba(255, 0, 0, 0.12), 0px 10px 15px rgba(255, 0, 0, 0.12),
+    0px 0px 4px rgba(255, 0, 0, 0.12);
+}
+.groupShowProducts {
+  display: block;
+}

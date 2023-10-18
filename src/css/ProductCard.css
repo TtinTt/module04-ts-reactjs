@@ -1,0 +1,110 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.productImgThumb {
+  height: 18rem;
+  object-fit: cover;
+}
+.productImgLarger {
+  height: 28rem;
+  object-fit: cover;
+}
+.productImgThumbSmall {
+  height: 6rem;
+  width: 6rem;
+  object-fit: cover;
+  display: inline-block;
+}
+.col .card {
+  /* margin: 10px auto; */
+}
+#adminProductCard h6 {
+  margin: 0;
+}
+.imgDeletePhoto {
+  border-radius: 25px;
+  border: 2px solid rgb(156, 156, 156);
+  height: 30px;
+  width: 60px;
+  object-fit: cover;
+  margin-right: 5px;
+}
+td {
+  vertical-align: middle !important;
+  padding: 30px;
+}
+
+#cardProductBodyAdmin {
+  display: inline-block;
+  width: 60%;
+}
+.col {
+  /* width: 18rem; */
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+}
+.productPreview {
+  border: solid rgb(227, 227, 227) 2px;
+  width: 500px;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.groupPreview {
+  display: flex;
+  justify-content: center;
+}
+
+.row {
+  --bs-gutter-x: -10px;
+  /* margin: 0 auto; */
+}
+.subPreview {
+  text-align: center;
+  color: gray;
+  margin: 0;
+  padding: 0;
+}
+#tooltip-top {
+  --bs-tooltip-opacity: 0.9;
+  --bs-tooltip-max-width: 290px;
+  --bs-tooltip-color: rgb(0, 0, 0);
+  --bs-tooltip-bg: rgb(255, 255, 255);
+  border: 1px gray solid;
+  inset: auto auto 17px 0px !important;
+}
+.editProductCard {
+  margin-left: 30px;
+  border: solid rgb(227, 227, 227) 2px;
+  width: 500px;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 10px;
+}
+
+/* element.style {
+  inset: auto auto 17px 0px !important;
+} */
+
+#modalFotter {
+  display: flex;
+  flex-wrap: nowrap !important;
+  width: 100%;
+}
+
+/* .ProductCardThumb {
+  border: 1px solid rgb(220, 220, 220);
+} */
+.ProductCardThumb {
+  border: none;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  /* box-shadow: rgba(249, 213, 192, 0.9) 0px 7px 29px 0px; */
+}
+.ProductCardThumb:hover {
+  cursor: pointer;
+
+  border: none;
+  box-shadow: rgba(100, 100, 111, 0.5) 0px 17px 40px 0px;
+}

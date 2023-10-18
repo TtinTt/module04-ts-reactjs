@@ -1,0 +1,14 @@
+#user-img {
+  object-fit: cover;
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+  border: solid 3px rgb(184, 184, 184);
+  background-color: #efefef;
+  margin: 50px 0;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+#user-info {
+  max-width: 600px;
+}
