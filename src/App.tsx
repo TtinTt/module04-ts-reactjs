@@ -13,8 +13,8 @@ import Cart from "./pages/Cart";
 import Order from "./pages/Order";
 import ContactUs from "./pages/ContactUs";
 import PageNotFound from "./pages/PageNotFound";
-import Admin from "./pages/Admin/Admin";
-import AdminLogin from "./pages/Admin/AdminLogin";
+// import Admin from "./pages/Admin/Admin";
+// import AdminLogin from "./pages/Admin/AdminLogin";
 import AboutUsPage from "./pages/AboutUsPage";
 import QnAPage from "./pages/QnAPage";
 import ResetPass from "./pages/ResetPass";
@@ -80,10 +80,10 @@ const App: FC = () => {
         <Route path="/aboutUs" element={<AboutUsPage />} />
         <Route path="/QnA" element={<QnAPage />} />
         <Route path="/aboutProduct" element={<AboutProductPage />} />
-        <Route
+        {/* <Route
           path="/admin"
           element={adminLogined == null ? <AdminLogin /> : <Admin />}
-        />
+        /> */}
         {catalogue}
         <Route path="*" element={<PageNotFound />} />
       </Routes>

@@ -34,7 +34,9 @@ const FooterBot: React.FC = () => {
                   <a href="">Chính sách đổi trả</a>
                 </li> */}
                 <li>
-                  <a href="/admin">Truy cập quyền quản trị</a>
+                  <a href="http://localhost:4444/admin">
+                    Truy cập quyền quản trị
+                  </a>
                 </li>
               </ul>
             </nav>
