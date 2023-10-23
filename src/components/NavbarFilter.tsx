@@ -93,9 +93,9 @@ const NavbarFilter: React.FC = () => {
   };
 
   const handleGetInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
+    console.log(event.target.value.trim());
 
-    dispatch(inputSearchBox(event.target.value));
+    dispatch(inputSearchBox(event.target.value.trim()));
   };
 
   return (

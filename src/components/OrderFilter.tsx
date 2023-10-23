@@ -55,7 +55,7 @@ function OrderFilter() {
   };
 
   const handleGetInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(inputSearchOrder(event.target.value));
+    dispatch(inputSearchOrder(event.target.value.trim()));
   };
 
   return (

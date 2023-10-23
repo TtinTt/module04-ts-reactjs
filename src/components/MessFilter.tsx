@@ -50,7 +50,7 @@ function MessFilter() {
   };
 
   const handleGetInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(inputSearchMess(event.target.value));
+    dispatch(inputSearchMess(event.target.value.trim()));
   };
 
   const setFilterMess = (): string => {

@@ -49,7 +49,7 @@ function UserFilter() {
   };
 
   const handleGetInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(inputSearchUser(event.target.value));
+    dispatch(inputSearchUser(event.target.value.trim()));
   };
 
   return (

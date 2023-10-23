@@ -62,7 +62,7 @@ function AdminFilter() {
 
   // lấy dữ liệu search
   const handleGetInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(inputSearchAdmin(event.target.value));
+    dispatch(inputSearchAdmin(event.target.value.trim()));
   };
 
   return (
