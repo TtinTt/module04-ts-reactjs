@@ -79,7 +79,14 @@ export default function BoxLogin() {
   };
 
   const validate = async (data: UserData) => {
-    const newError: ErrorState = { ...error };
+    console.log(data);
+
+    const newError: ErrorState = {
+      isShowStatus: false,
+      status: false,
+      errorMsg: "",
+    };
+    
     if (data.email === "" || data.password === "") {
       newError.status = true;
       newError.errorMsg = "Các thông tin không được để trống";
@@ -88,6 +95,7 @@ export default function BoxLogin() {
       newError.status = false;
       newError.errorMsg = "";
     }
+    console.log(newError);
     setError(newError);
   };
 

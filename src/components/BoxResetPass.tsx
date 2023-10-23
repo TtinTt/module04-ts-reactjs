@@ -102,12 +102,13 @@ const BoxResetPass: FC = () => {
         }
       });
   };
-
   const handleSubmit = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
     await validate(user);
-    if (error.status) {
-      await setError({ ...error, isShowStatus: true });
+    const currentError = { ...error }; // Lấy giá trị mới của error sau khi validate
+
+    if (currentError.status) {
+      await setError({ ...currentError, isShowStatus: true });
       return;
     } else {
       userApi
@@ -167,7 +168,15 @@ const BoxResetPass: FC = () => {
   };
 
   const validate = async (data: UserFormData): Promise<void> => {
-    let newError: ValidationError = { ...error };
+    let newError: ValidationError = {
+      isShowStatus: false,
+      status: false,
+      errorMsg: "",
+    };
+
+    console.log(data);
+    console.log(error);
+
     if (
       data.codeResetPass == "" ||
       data.password == "" ||
@@ -200,6 +209,7 @@ const BoxResetPass: FC = () => {
     } else {
       newError = { isShowStatus: false, status: false, errorMsg: "" };
     }
+    console.log(newError);
 
     setError(newError);
   };

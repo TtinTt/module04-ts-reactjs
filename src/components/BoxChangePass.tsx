@@ -62,7 +62,7 @@ const BoxChangePass: React.FC = () => {
   const handleGetInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
     setUser((prev) => ({ ...prev, [id]: value }));
-    await validate(user);
+    // await validate(user);
   };
 
   const changePassByApi = () => {
@@ -98,7 +98,9 @@ const BoxChangePass: React.FC = () => {
     // // Lỗi thì ngưng chạy
     event.preventDefault();
     await validate(user);
-    if (error.status) {
+    const isError = error.status;
+
+    if (isError) {
       // render lỗi và kết thúc
       await setError({ ...error, isShowStatus: true });
       return;
@@ -131,7 +133,12 @@ const BoxChangePass: React.FC = () => {
   };
 
   const validate = async (data: UserData) => {
-    let newError = { ...error }; // Tạo một bản sao của error hiện tại
+    let newError = {
+      isShowStatus: false,
+      status: false,
+      errorMsg: "",
+    };
+    // debugger;
 
     if (
       data.oldpassword == "" ||
@@ -171,7 +178,7 @@ const BoxChangePass: React.FC = () => {
       newError = { isShowStatus: false, status: false, errorMsg: "" };
     }
 
-    setError(newError); // Cập nhật error
+    await setError(newError); // Cập nhật error
   };
 
   return (
