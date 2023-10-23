@@ -13,11 +13,7 @@ import "../css/Home.css";
 const PageNotFound: React.FC = () => {
   return (
     <Container>
-      <div className="navbar">
-        <NavbarTop />
-      </div>
       <NotFound />
-      <FooterBot />
     </Container>
   );
 };

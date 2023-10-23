@@ -6,20 +6,20 @@ import "../css/Cart.css";
 import { useNavigate } from "react-router-dom";
 
 function NotFound() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const userLogined = useSelector(
-    (state: State) => state.userReducer.userLogined
-  );
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // const userLogined = useSelector(
+  //   (state: State) => state.userReducer.userLogined
+  // );
 
-  useEffect(() => {
-    if (userLogined) {
-      dispatch(clearCart());
-      navigate("/cart");
-    } else {
-      navigate("/login");
-    }
-  }, [userLogined, dispatch, navigate]);
+  // useEffect(() => {
+  //   if (userLogined) {
+  //     dispatch(clearCart());
+  //     navigate("/cart");
+  //   } else {
+  //     navigate("/login");
+  //   }
+  // }, [userLogined, dispatch, navigate]);
 
   return (
     <div className="imgPageTop">

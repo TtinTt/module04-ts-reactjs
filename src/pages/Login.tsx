@@ -12,11 +12,7 @@ import "../css/Home.css";
 const Login: React.FC = () => {
   return (
     <Container>
-      <div className="navbar">
-        <NavbarTop />
-      </div>
       <BoxLogin />
-      <FooterBot />
     </Container>
   );
 };

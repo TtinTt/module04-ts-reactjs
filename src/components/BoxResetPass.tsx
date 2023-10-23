@@ -66,14 +66,14 @@ const BoxResetPass: FC = () => {
 
   const handleShow = (): void => setShow(true);
 
-  const handleGetInput = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): Promise<void> => {
-    setUser({
+  const handleGetInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.target;
+    const updatedUser = {
       ...user,
-      [event.target.id]: event.target.value,
-    });
-    await validate(user);
+      [id]: value,
+    };
+    setUser(updatedUser);
+    await validate(updatedUser);
   };
 
   const resetPassByApi = (): void => {
@@ -168,11 +168,7 @@ const BoxResetPass: FC = () => {
   };
 
   const validate = async (data: UserFormData): Promise<void> => {
-    let newError: ValidationError = {
-      isShowStatus: false,
-      status: false,
-      errorMsg: "",
-    };
+    let newError: ValidationError = { ...error };
 
     console.log(data);
     console.log(error);

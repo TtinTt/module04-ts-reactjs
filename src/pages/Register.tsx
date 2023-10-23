@@ -12,11 +12,7 @@ import "../css/Home.css";
 const Register: React.FC = () => {
   return (
     <Container>
-      <div className="navbar">
-        <NavbarTop />
-      </div>
       <BoxRegister />
-      <FooterBot />
     </Container>
   );
 };

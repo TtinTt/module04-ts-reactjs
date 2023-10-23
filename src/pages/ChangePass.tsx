@@ -12,11 +12,7 @@ import "../css/Home.css";
 const ChangePass: React.FC = () => {
   return (
     <Container>
-      <div className="navbar">
-        <NavbarTop />
-      </div>
       <BoxChangePass />
-      <FooterBot />
     </Container>
   );
 };

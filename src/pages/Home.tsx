@@ -16,7 +16,6 @@ const Home: React.FC = () => {
   return (
     <Container>
       <div>
-        <NavbarTop />
         {checkLink === "/" ? (
           <CarouselProduct />
         ) : (
@@ -39,8 +38,6 @@ const Home: React.FC = () => {
         </div>
         <ProductList />
       </div>
-
-      <FooterBot />
     </Container>
   );
 };

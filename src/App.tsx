@@ -1,10 +1,10 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
-import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState, FC } from "react";
-
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Layout from "./Layout";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -66,26 +66,28 @@ const App: FC = () => {
   });
 
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/changePass" element={<ChangePass />} />
-      <Route path="/resetPass" element={<ResetPass />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/order" element={<Order />} />
-      <Route path="/contactUs" element={<ContactUs />} />
-      <Route path="/aboutUs" element={<AboutUsPage />} />
-      <Route path="/QnA" element={<QnAPage />} />
-      <Route path="/aboutProduct" element={<AboutProductPage />} />
-      <Route
-        path="/admin"
-        element={adminLogined == null ? <AdminLogin /> : <Admin />}
-      />
-      {catalogue}
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/changePass" element={<ChangePass />} />
+        <Route path="/resetPass" element={<ResetPass />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/order" element={<Order />} />
+        <Route path="/contactUs" element={<ContactUs />} />
+        <Route path="/aboutUs" element={<AboutUsPage />} />
+        <Route path="/QnA" element={<QnAPage />} />
+        <Route path="/aboutProduct" element={<AboutProductPage />} />
+        <Route
+          path="/admin"
+          element={adminLogined == null ? <AdminLogin /> : <Admin />}
+        />
+        {catalogue}
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </Layout>
   );
 };
 

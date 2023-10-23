@@ -21,11 +21,7 @@ const AdminLogin: React.FC = () => {
 
   return (
     <Container>
-      <div className="navbar">
-        <NavbarTop />
-      </div>
       <AdminLoginBox />
-      <FooterBot />
     </Container>
   );
 };

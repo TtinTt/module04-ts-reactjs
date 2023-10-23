@@ -15,12 +15,7 @@ import Tab from "react-bootstrap/Tab";
 const ContactUs: React.FC = () => {
   return (
     <Container>
-      <div className="navbar">
-        <NavbarTop />
-      </div>
       <ContactUsBox />
-
-      <FooterBot />
     </Container>
   );
 };

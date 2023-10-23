@@ -13,11 +13,7 @@ import "../css/Home.css";
 const AboutProductPage: React.FC = () => {
   return (
     <Container>
-      <div className="navbar">
-        <NavbarTop />
-      </div>
       <AboutProduct />
-      <FooterBot />
     </Container>
   );
 };

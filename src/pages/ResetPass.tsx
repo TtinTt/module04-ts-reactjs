@@ -12,11 +12,7 @@ import "../css/Home.css";
 const ResetPass: React.FC = () => {
   return (
     <Container>
-      <div className="navbar">
-        <NavbarTop />
-      </div>
       <BoxResetPass />
-      <FooterBot />
     </Container>
   );
 };

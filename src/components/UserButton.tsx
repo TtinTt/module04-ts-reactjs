@@ -62,9 +62,11 @@ const UserButton: FC<UserButtonProps> = ({ link }) => {
       </Navbar.Brand>
     );
   } else if (
-    link === "/register" ||
-    link === "/resetPass" ||
-    (link === "/" && userLogined == null)
+    // link === "/register" ||
+    // link === "/resetPass" ||
+    link !== "/login" &&
+    link !== "/admin" &&
+    userLogined == null
   ) {
     return (
       <Navbar.Brand className="d-flex">

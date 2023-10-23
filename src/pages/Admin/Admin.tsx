@@ -31,9 +31,6 @@ const Admin: React.FC<AdminProps> = (props) => {
   // Render JSX
   return (
     <Container>
-      <div>
-        <NavbarTop />
-      </div>
       <Tabs
         id="controlled-tab-example"
         activeKey={key}
@@ -60,8 +57,6 @@ const Admin: React.FC<AdminProps> = (props) => {
           <ManageAdmin />
         </Tab>
       </Tabs>
-
-      <FooterBot />
     </Container>
   );
 };

@@ -61,8 +61,12 @@ const BoxChangePass: React.FC = () => {
 
   const handleGetInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
-    setUser((prev) => ({ ...prev, [id]: value }));
-    // await validate(user);
+    const updatedUser = {
+      ...user,
+      [id]: value,
+    };
+    setUser(updatedUser);
+    await validate(updatedUser);
   };
 
   const changePassByApi = () => {
@@ -133,11 +137,7 @@ const BoxChangePass: React.FC = () => {
   };
 
   const validate = async (data: UserData) => {
-    let newError = {
-      isShowStatus: false,
-      status: false,
-      errorMsg: "",
-    };
+    let newError = { ...error };
     // debugger;
 
     if (

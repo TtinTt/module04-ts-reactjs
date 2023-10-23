@@ -39,11 +39,12 @@ export default function BoxLogin() {
 
   const handleGetInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
-    setUser((prevState) => ({
-      ...prevState,
+    const updatedUser = {
+      ...user,
       [id]: value,
-    }));
-    await validate(user);
+    };
+    setUser(updatedUser);
+    await validate(updatedUser);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -81,12 +82,8 @@ export default function BoxLogin() {
   const validate = async (data: UserData) => {
     console.log(data);
 
-    const newError: ErrorState = {
-      isShowStatus: false,
-      status: false,
-      errorMsg: "",
-    };
-    
+    const newError: ErrorState = { ...error };
+
     if (data.email === "" || data.password === "") {
       newError.status = true;
       newError.errorMsg = "Các thông tin không được để trống";
