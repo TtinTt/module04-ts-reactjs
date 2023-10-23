@@ -44,25 +44,75 @@ export default function BoxRegister() {
     errorMsg: "",
   });
 
+  useEffect(() => {
+    if (userLogined !== null) navigate("/");
+  }, [usersDB, navigate]);
+
   const handleGetInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
     setUser((prev) => ({
       ...prev,
       [id]: value,
     }));
-    await validate(user);
+    const validationError = await validate(user);
+    setError(validationError);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    await validate(user);
-    if (!error.status) return;
+    console.log(user);
 
-    // Call API here...
+    event.preventDefault();
+    const validationError = await validate(user);
+
+    if (validationError.status) {
+      setError({ ...validationError, isShowStatus: true });
+      return;
+    } else {
+      authApi
+        .register({ email: user.email, password: user.password })
+        .then((response) => {
+          navigate("/login");
+        })
+        .catch((error) => {
+          // alert(error.response.statusText);
+          setError({
+            isShowStatus: true,
+            status: true,
+            errorMsg: "Tài khoản đã tồn tại hoặc thông tin không hợp lệ.",
+          });
+        });
+    }
   };
 
-  const validate = async (data: UserForm) => {
-    // Your validation code...
+  const validate = async (data: UserForm): Promise<ErrorType> => {
+    let newError: ErrorType = {
+      isShowStatus: false,
+      status: false,
+      errorMsg: "",
+    };
+    if (!data.email || !data.password || !data.confirmPassword) {
+      newError.status = true;
+      newError.errorMsg = "Các thông tin không được để trống.";
+      // newError.isShowStatus = true;
+    } else if (data.password !== data.confirmPassword) {
+      newError.status = true;
+      newError.errorMsg = "Mật khẩu nhập lại không chính xác.";
+      // newError.isShowStatus = true;
+    } else if (data.password.length < 6) {
+      newError.status = true;
+      newError.errorMsg = "Mật khẩu không được ngắn hơn 6 ký tự.";
+      // newError.isShowStatus = true;
+    } else if (
+      !data.password.match(/[a-z]/) ||
+      !data.password.match(/[A-Z]/) ||
+      !data.password.match(/\d/)
+    ) {
+      newError.status = true;
+      newError.errorMsg =
+        "Mật khẩu cần bao gồm ký tự IN HOA, chữ thường và chữ số.";
+      // newError.isShowStatus = true;
+    }
+    return newError;
   };
 
   return (

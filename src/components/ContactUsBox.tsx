@@ -41,7 +41,7 @@ const ContactUsBox: React.FC = () => {
       return {
         email: userLogined.email,
         name: userLogined.name ?? "",
-        phone: userLogined.phone.toString() ?? "",
+        phone: userLogined?.phone?.toString() ?? "",
         date: getCurrentTimeString(),
         mess: "",
         status: 1,
