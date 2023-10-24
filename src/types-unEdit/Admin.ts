@@ -7,16 +7,13 @@ export interface Admin {
   img?: string;
 }
 
-export interface AdminLogined {
+export type AdminLogined = Omit<Admin, "password" | "img"> & {
   admin_id: number;
-  email: string;
-  date: string;
-  status: number;
-}
+}; //omit: xóa bớt các key không dùng
 
 export interface AdminState {
   adminLogined: AdminLogined | null;
   admins: Admin[];
   searchFilter: string;
-  filter: any | null; // Specify the type of filter if known
+  filter: number | null;
 }

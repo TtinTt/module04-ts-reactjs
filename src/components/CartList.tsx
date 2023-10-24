@@ -105,7 +105,7 @@ function CartList() {
   const [address, setAddress] = useState<Address>({
     name: userLogined?.name || "",
     address: userLogined?.add_address || "",
-    phoneNumber: userLogined?.phone.toString() || "",
+    phoneNumber: userLogined?.phone?.toString() || "",
     note: "",
   });
 

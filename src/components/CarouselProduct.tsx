@@ -119,13 +119,13 @@ function CarouselProduct() {
     if (loading) {
       return <h5 className="text-center msgCartTop">Loading...</h5>;
     } else {
-      const productsForTag = productsByTags[tag.toString().toLowerCase()];
+      const productsForTag = productsByTags[tag?.toString().toLowerCase()];
 
       // Thêm điều kiện kiểm tra
       if (!productsForTag || productsForTag.length === 0) {
         return null; // Không trả về gì cả nếu không có sản phẩm cho tag này
       }
-      // const productsForTag = fetchProducts(tag.toString().toLowerCase());
+      // const productsForTag = fetchProducts(tag?.toString().toLowerCase());
       let productShow = getRandomElement(productsForTag);
 
       if (!productShow) {
@@ -185,7 +185,7 @@ function CarouselProduct() {
     if (loading) {
       return <h5 className="text-center msgCartTop">Loading...</h5>;
     } else {
-      const productsForTag = productsByTags[tag.toString().toLowerCase()];
+      const productsForTag = productsByTags[tag?.toString().toLowerCase()];
 
       // Thêm điều kiện kiểm tra
       if (!productsForTag || productsForTag.length === 0) {

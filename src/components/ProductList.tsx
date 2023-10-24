@@ -36,7 +36,7 @@ const ProductList: FC = () => {
       .substring(1)
       .replace(/\s/g, "")
       .toLocaleLowerCase()
-      .toString()
+      ?.toString()
       .trim();
     // productListDraft = productsByTags[link];
   }
@@ -70,11 +70,6 @@ const ProductList: FC = () => {
           console.log(error.response?.statusText);
         }
       });
-  };
-
-  const handleAdd = (product: any) => {
-    // Kiểu chính xác của product nên được xác định
-    dispatch(addToCart(product));
   };
 
   const [currentPage, setCurrentPage] = useState<number>(1);

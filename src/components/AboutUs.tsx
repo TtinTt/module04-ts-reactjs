@@ -1,7 +1,5 @@
 import React from "react";
-
 import { Container } from "react-bootstrap";
-
 import "../css/Cart.css";
 
 const AboutUs: React.FC = () => {

@@ -7,29 +7,21 @@ export interface User {
   date: string;
   status: number;
   add: string;
-  phone: string;
+  phone: number | string;
   img: string;
   cart: CartItem[];
   user_id?: number;
   resetPassword?: string;
 }
 
-export interface UserLogined {
+export type UserLogined = Omit<User, "add" | "user_id" | "resetPassword"> & {
   user_id: number;
-  email: string;
-  name: string;
-  bday: string;
-  date: string;
-  status: number;
   add_address: string;
-  phone: number;
-  img: string;
-  cart: CartItem[];
-}
+};
 
 export interface UserState {
   userLogined: UserLogined | null;
   users: User[];
   searchFilter: string;
-  filter: any | null; // Specify the type of filter if known
+  filter: number | null;
 }

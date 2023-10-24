@@ -1,5 +1,4 @@
 import api, { getHeaders } from "./api";
-
 interface AdminResponse {
   [key: string]: any;
 }

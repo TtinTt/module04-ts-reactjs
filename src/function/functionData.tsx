@@ -125,11 +125,11 @@ export const getStatus = (
   if (status === null || status === undefined)
     return "Trạng thái không xác định";
 
-  const orderStatus = status.toString();
+  const orderStatus = status?.toString();
   return ORDER_STATUSES[orderStatus]?.message || "Trạng thái không xác định";
 };
 
-export const isArrayContainingObjects = (obj: any[]): boolean => {
+export const isArrayContainingObjects = (obj: Object): boolean => {
   if (!Array.isArray(obj)) {
     return false;
   }
@@ -149,7 +149,7 @@ export const hanleGetColor = (
 ): string => {
   if (status === null || status === undefined) return "none";
 
-  const orderStatus = status.toString();
+  const orderStatus = status?.toString();
   return ORDER_STATUSES[orderStatus]?.color || "none";
 };
 
@@ -199,7 +199,7 @@ export const getDaysDifference = (date: string | null): number | string => {
     return "";
   }
 
-  let dateString = date.toString();
+  let dateString = date?.toString();
   if (dateString == "") {
     return "";
   } else {
@@ -249,7 +249,7 @@ export const TruncateName = (
 };
 
 export const Changedot = (money: string | number): string | number => {
-  money = money.toString();
+  money = money?.toString();
   // money = JSON.stringify(money);
   if (money.includes("." || "đ")) {
     return Number(
@@ -263,12 +263,12 @@ export const Changedot = (money: string | number): string | number => {
       .replace(/\s+/g, "") //xoá space
       .replace(/\./g, "") //xoá .
       .replace(/đ/g, ""); //xoá đ
-    return moneyEdit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
+    return moneyEdit?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
   }
 };
 
 export const removeDot = (money: string): number => {
-  money = money.toString();
+  money = money?.toString();
 
   return Number(
     money
@@ -278,7 +278,7 @@ export const removeDot = (money: string): number => {
   );
 };
 
-const sortPrice = (productList: any[], sortOption: number): any[] => {
+const sortPrice = (productList: Product[], sortOption: number): Product[] => {
   if (sortOption === 0) {
     // console.log(productList);
 
@@ -298,7 +298,10 @@ const sortPrice = (productList: any[], sortOption: number): any[] => {
   }
 };
 
-const sortPriceFrom = (productList: any[], priceMax: number | null): any[] => {
+const sortPriceFrom = (
+  productList: Product[],
+  priceMax: number | null
+): Product[] => {
   // console.log("sortPriceFrom");
 
   if (priceMax === null) {
@@ -313,7 +316,7 @@ const sortPriceFrom = (productList: any[], priceMax: number | null): any[] => {
 export const HandleFilter = async (
   currentPage: number,
   productsPerPage: number
-): Promise<{ totalProductsDB: number; productList: any[] }> => {
+): Promise<{ totalProductsDB: number; productList: Product[] }> => {
   console.log("HandleFilter");
   // lấy giá trị ô search
   const searchFilter =
@@ -366,7 +369,7 @@ export const CheckLink = (): string => {
 };
 
 export const addSpace = (inputString: string): string => {
-  let removeSpace = inputString.toString().replace(/\s+/g, "");
+  let removeSpace = inputString?.toString().replace(/\s+/g, "");
   return removeSpace.replace(/,/g, ", ");
 };
 
@@ -375,25 +378,25 @@ export const splitArray = (inputString: string): string[] => {
   return removeSpace.split(",");
 };
 
-const FilterOrders = (orders: any[], filterOption: number): any[] => {
-  let filteredOrders: any[] = [];
+const FilterOrders = (orders: Order[], filterOption: number): Order[] => {
+  let filteredOrders: Order[] = [];
   // console.log(orders);
   if (filterOption === 0) {
     filteredOrders = orders;
   } else if (filterOption === 1) {
     filteredOrders = orders.filter((order) =>
-      ["0", "1", "2", "4"].includes(order.status)
+      ["0", "1", "2", "4"].includes(order.status?.toString())
     );
   } else if (filterOption === 2) {
     filteredOrders = orders.filter((order) =>
-      ["-1", "-2", "3", "5"].includes(order.status)
+      ["-1", "-2", "3", "5"].includes(order.status?.toString())
     );
   }
 
   return filteredOrders;
 };
 
-export const HandleFilterOrder = (): any[] => {
+export const HandleFilterOrder = (): Order[] => {
   // lấy giá trị ô orderList từ store
   const orderList = useSelector((state: State) => state.orderReducer.orders);
 
@@ -423,7 +426,7 @@ const getStatusUser = (status: boolean): string => {
   return status ? "Đang hoạt động" : "Đình chỉ";
 };
 
-export const HandleFilterUser = (): any[] => {
+export const HandleFilterUser = (): User[] => {
   // lấy giá trị ô userList từ store
   const userList = useSelector((state: State) => state.userReducer.users);
 
@@ -456,7 +459,7 @@ const getStatusMess = (status: number): string => {
   return status ? "Đã phản hồi" : "Chưa phản hồi";
 };
 
-export const HandleFilterMess = (): any[] => {
+export const HandleFilterMess = (): Mess[] => {
   // lấy giá trị ô messList từ store
   const messList = useSelector((state: State) => state.messReducer.messs);
 
@@ -492,8 +495,8 @@ export const useGetTagsProducts = (): string[] => {
   return listTag;
 };
 
-export const useGetProductsByTags = (): { [key: string]: any[] } => {
-  const result: { [key: string]: any[] } = {};
+export const useGetProductsByTags = (): { [key: string]: Product[] } => {
+  const result: { [key: string]: Product[] } = {};
 
   let products = useSelector((state: State) => state.productReducer.products);
   let listCatalogueByTag = useGetTagsProducts();

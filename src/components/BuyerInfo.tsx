@@ -1,19 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Container,
-  Form,
-  Nav,
-  Navbar,
-  NavDropdown,
-  InputGroup,
-  FloatingLabel,
-  Image,
-  Modal,
-} from "react-bootstrap";
+import { Button, Form, InputGroup, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import { inputSearchBox } from "../actions/productAction";
 import { logoutUser, loginUser, updateInfoUser } from "../actions/userAction";
 import authApi from "../apis/auth.api";
