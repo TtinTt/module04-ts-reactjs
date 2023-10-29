@@ -241,7 +241,7 @@ const BoxResetPass: FC = () => {
               htmlFor="codeResetPass"
               className="form-label"
             >
-              Mã xác nhận
+              Mã xác nhận<span style={{ color: "red" }}> *</span>
               <strong
                 style={{
                   color: "Black",
@@ -266,7 +266,7 @@ const BoxResetPass: FC = () => {
 
           <div className="mb-3">
             <label htmlFor="password" className="form-label">
-              Mật khẩu mới
+              Mật khẩu mới<span style={{ color: "red" }}> *</span>
             </label>
             <input
               type="password"
@@ -277,7 +277,7 @@ const BoxResetPass: FC = () => {
           </div>
           <div className="mb-3">
             <label htmlFor="confirmPassword" className="form-label">
-              Nhập lại mật khẩu
+              Nhập lại mật khẩu<span style={{ color: "red" }}> *</span>
             </label>
             <input
               type="password"

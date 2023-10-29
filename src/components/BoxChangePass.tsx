@@ -208,7 +208,7 @@ const BoxChangePass: React.FC = () => {
 
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
-            Mật khẩu cũ
+            Mật khẩu cũ<span style={{ color: "red" }}> *</span>
           </label>
           <input
             type="password"
@@ -220,7 +220,7 @@ const BoxChangePass: React.FC = () => {
 
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
-            Mật khẩu
+            Mật khẩu<span style={{ color: "red" }}> *</span>
           </label>
           <input
             type="password"
@@ -231,7 +231,7 @@ const BoxChangePass: React.FC = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="confirmPassword" className="form-label">
-            Nhập lại mật khẩu
+            Nhập lại mật khẩu<span style={{ color: "red" }}> *</span>
           </label>
           <input
             type="password"

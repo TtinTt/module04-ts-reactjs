@@ -128,7 +128,7 @@ export default function BoxRegister() {
         <h3 style={{ textAlign: "center", padding: "20px" }}>ĐĂNG KÝ</h3>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
-            Email
+            Email<span style={{ color: "red" }}> *</span>
           </label>
           <input
             type="email"
@@ -140,7 +140,7 @@ export default function BoxRegister() {
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
-            Mật khẩu
+            Mật khẩu<span style={{ color: "red" }}> *</span>
           </label>
           <input
             type="password"
@@ -151,7 +151,7 @@ export default function BoxRegister() {
         </div>
         <div className="mb-3">
           <label htmlFor="confirmPassword" className="form-label">
-            Nhập lại mật khẩu
+            Nhập lại mật khẩu<span style={{ color: "red" }}> *</span>
           </label>
           <input
             type="password"

@@ -295,7 +295,7 @@ function CartList() {
           <>
             <FloatingLabel
               controlId="floatingInput name"
-              label="Tên người nhận"
+              label="Tên người nhận *"
               className="mb-3"
               onChange={handleChangeAddress}
             >
@@ -303,7 +303,7 @@ function CartList() {
             </FloatingLabel>
             <FloatingLabel
               controlId="floatingInput phoneNumber"
-              label="Số điện thoại"
+              label="Số điện thoại *"
               className="mb-3"
               onChange={handleChangeAddress}
             >
@@ -315,7 +315,7 @@ function CartList() {
             </FloatingLabel>
             <FloatingLabel
               controlId="floatingInput address"
-              label="Địa chỉ"
+              label="Địa chỉ *"
               className="mb-3"
               onChange={handleChangeAddress}
             >

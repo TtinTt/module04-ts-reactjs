@@ -67,11 +67,12 @@ const ContactUsBox: React.FC = () => {
   ) => {
     const newMess: Info = {
       ...info,
-      [event.target.getAttribute("aria-label") || ""]: event.target.value,
+      [event.target.getAttribute("name") || ""]: event.target.value,
     };
 
     setInfo(newMess);
     validateInfo(newMess);
+    console.log(newMess);
   };
 
   const validateInfo = (newMess: Info): string | null => {
@@ -124,13 +125,15 @@ const ContactUsBox: React.FC = () => {
           />
           <InputGroup id="user-info" className="mb-3 mx-auto">
             <InputGroup className="mb-3">
-              <InputGroup.Text id="basic-addon1">Email</InputGroup.Text>
+              <InputGroup.Text id="basic-addon1">
+                Email <span style={{ color: "red" }}> *</span>
+              </InputGroup.Text>
               <Form.Control
                 disabled={userLogined ? true : false}
-                aria-label="email"
+                name="email"
                 aria-describedby="basic-addon1"
                 type="email"
-                value={userLogined ? info.email || "" : ""}
+                value={info.email}
                 onChange={handleChangeinfo}
               />
             </InputGroup>
@@ -138,19 +141,21 @@ const ContactUsBox: React.FC = () => {
               <InputGroup.Text id="basic-addon1">Tên</InputGroup.Text>
               <Form.Control
                 disabled={userLogined && info.name !== "" ? true : false}
-                aria-label="name"
+                name="name"
                 aria-describedby="basic-addon1"
                 type="text"
-                value={userLogined ? info.name || "" : ""}
+                value={info.name}
                 onChange={handleChangeinfo}
               />
             </InputGroup>
 
             <InputGroup className="mb-3">
-              <InputGroup.Text id="basic-addon1">Số điện thoại</InputGroup.Text>
+              <InputGroup.Text id="basic-addon1">
+                Số điện thoại <span style={{ color: "red" }}> *</span>{" "}
+              </InputGroup.Text>
               <Form.Control
                 disabled={userLogined && info.phone !== "" ? true : false}
-                aria-label="phone"
+                name="phone"
                 aria-describedby="basic-addon1"
                 type="number"
                 // as="textarea"
@@ -160,11 +165,11 @@ const ContactUsBox: React.FC = () => {
             </InputGroup>
             <InputGroup className="mb-3">
               <InputGroup.Text id="basic-addon1">
-                Lời nhắn của bạn{" "}
+                Lời nhắn của bạn <span style={{ color: "red" }}> *</span>
               </InputGroup.Text>
               <Form.Control
                 // placeholder="Ngày sinh"
-                aria-label="mess"
+                name="mess"
                 aria-describedby="basic-addon1"
                 type="text"
                 // as="textarea"

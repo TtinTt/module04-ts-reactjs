@@ -109,7 +109,7 @@ export default function BoxLogin() {
         <h3 style={{ textAlign: "center", padding: "20px" }}>ĐĂNG NHẬP</h3>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
-            Email
+            Email<span style={{ color: "red" }}> *</span>
           </label>
           <input
             onChange={(event) => handleGetInput(event)}
@@ -127,7 +127,7 @@ export default function BoxLogin() {
               width: "100%",
             }}
           >
-            Mật khẩu{" "}
+            Mật khẩu<span style={{ color: "red" }}> *</span>
             <strong
               style={{
                 color: "Black",
