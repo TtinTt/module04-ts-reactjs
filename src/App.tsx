@@ -1,54 +1,93 @@
-import React, { useState } from "react";
-import TodoItem from "./component/TodoItem";
-import { Todo } from "./interface/Todo";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { useEffect, useState, FC } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Layout from "./Layout";
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import ChangePass from "./pages/ChangePass";
+import Cart from "./pages/Cart";
+import Order from "./pages/Order";
+import ContactUs from "./pages/ContactUs";
+import PageNotFound from "./pages/PageNotFound";
+// import Admin from "./pages/Admin/Admin";
+// import AdminLogin from "./pages/Admin/AdminLogin";
+import AboutUsPage from "./pages/AboutUsPage";
+import QnAPage from "./pages/QnAPage";
+import ResetPass from "./pages/ResetPass";
+import AboutProductPage from "./pages/AboutProductPage";
+import Profile from "./pages/Profile";
+import {
+  TruncateString,
+  CheckLink,
+  useGetTagsProducts,
+  useGetProductsByTags,
+  Changedot,
+} from "../src/function/functionData";
+import productApi from "./apis/product.api";
+import { State } from "./types-unEdit/StateReducer";
 
-const App: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [newTodo, setNewTodo] = useState<string>("");
+const App: FC = () => {
+  const state = useSelector((state: State) => state);
+  let adminLogined = useSelector(
+    (state: State) => state.adminReducer.adminLogined
+  );
 
-  const addTodo = () => {
-    const todo: Todo = {
-      id: todos.length == 0 ? 1 : todos[todos.length - 1].id + 1,
-      todo: newTodo,
-      date: new Date().toLocaleString("vi-VN", {
-        timeZone: "Asia/Ho_Chi_Minh",
-      }),
-      status: false,
-    };
-    setTodos([...todos, todo]);
-    setNewTodo("");
+  useEffect(() => {
+    localStorage.setItem("reduxState", JSON.stringify(state));
+  }, [state]);
+
+  const getTag = async () => {
+    try {
+      const data = await productApi.getTag({});
+      setTagsProducts(data.tags);
+    } catch (error: any) {
+      console.log(error);
+      if (error.response?.status === 401) {
+        console.log(error.response?.statusText);
+      } else {
+        console.log(error.response?.statusText);
+      }
+    }
   };
 
-  const deleteTodo = (id: number) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(updatedTodos);
-  };
+  const [tagsProducts, setTagsProducts] = useState<string[]>([]); // Giả định rằng tags là chuỗi
 
-  const updateTodo = (id: number, updatedTodo: Todo) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? updatedTodo : todo
-    );
-    setTodos(updatedTodos);
-  };
+  useEffect(() => {
+    getTag();
+  }, []);
+
+  const catalogue = tagsProducts.map((tag) => {
+    let urlLink = "/" + tag.toLowerCase();
+    return <Route path={urlLink} element={<Home />} />;
+  });
 
   return (
-    <div>
-      <input
-        type="text"
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
-      />
-      <button onClick={addTodo}>Thêm công việc mới</button>
-
-      {todos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          onDelete={deleteTodo}
-          onUpdate={updateTodo}
-        />
-      ))}
-    </div>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/changePass" element={<ChangePass />} />
+        <Route path="/resetPass" element={<ResetPass />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/order" element={<Order />} />
+        <Route path="/contactUs" element={<ContactUs />} />
+        <Route path="/aboutUs" element={<AboutUsPage />} />
+        <Route path="/QnA" element={<QnAPage />} />
+        <Route path="/aboutProduct" element={<AboutProductPage />} />
+        {/* <Route
+          path="/admin"
+          element={adminLogined == null ? <AdminLogin /> : <Admin />}
+        /> */}
+        {catalogue}
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </Layout>
   );
 };
 

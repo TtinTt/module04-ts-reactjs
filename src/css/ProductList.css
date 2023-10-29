@@ -1,0 +1,32 @@
+#ProductLogo {
+  width: 100px;
+  height: 100px;
+  display: inline-Block;
+  object-fit: contain;
+  margin-right: 8px;
+  padding: 10px;
+}
+
+.list-group-item {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.list-group,
+.list-group-item {
+  --bs-list-group-bg: none;
+  padding: 5px 0;
+}
+
+#statusPagination {
+  display: inline-block;
+  position: relative;
+  top: 10px;
+}
+
+#paginationSet {
+  margin: 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}

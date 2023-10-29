@@ -1,0 +1,56 @@
+.dropdown-item,
+#input-group-dropdown-2 {
+  width: 130px;
+  text-align: left;
+}
+
+#input-group-dropdown-3 {
+  width: 160px;
+  text-align: left;
+}
+.sortStatus {
+  border: none;
+  text-align: right;
+  width: 120px !important;
+  float: right !important;
+}
+.sortStatus2 {
+  border: none;
+  text-align: right;
+  width: 80px !important;
+  float: right !important;
+}
+#setMaxPrice {
+  width: 150px;
+}
+#setMaxPriceRange {
+  width: 350px;
+  border: 1px solid rgb(230, 230, 230);
+  border-radius: 10px;
+  background-color: rgb(230, 230, 230);
+  padding: 0 8px;
+}
+#setMaxPriceLabel {
+  font-size: 18px;
+  position: relative;
+  top: 0px;
+  margin-right: 5px;
+}
+
+#navbarScroll {
+  justify-content: space-between;
+}
+#navbarScrollContainer {
+}
+#groupSortMaxPrice {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 5px;
+}
+#groupSearchProduct {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 5px;
+}
