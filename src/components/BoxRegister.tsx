@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import authApi from "../apis/auth.api";
+import userApi from "../apis/user.api";
 
 import { UserLogined, User } from "../types-unEdit/User";
 import { State } from "../types-unEdit/StateReducer";
@@ -68,7 +69,7 @@ export default function BoxRegister() {
       setError({ ...validationError, isShowStatus: true });
       return;
     } else {
-      authApi
+      userApi
         .register({ email: user.email, password: user.password })
         .then((response) => {
           navigate("/login");

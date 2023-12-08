@@ -69,9 +69,22 @@ const updateUser = async (
   }
 };
 
+const register = async (
+  requestBody: Record<string, any>
+): Promise<UserResponse | ErrorResponse> => {
+  try {
+    const response = await api.post("/users", requestBody);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 export default {
   searchUsers,
   updateUser,
   sendCodeResetPass,
   resetPass,
+  register,
 };

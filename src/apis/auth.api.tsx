@@ -53,7 +53,7 @@ const register = async (
   requestBody: Record<string, any>
 ): Promise<AuthResponse | ErrorResponse> => {
   try {
-    const response = await api.post("/register", requestBody);
+    const response = await api.post("/users", requestBody);
     return response.data;
   } catch (error) {
     console.error(error);
