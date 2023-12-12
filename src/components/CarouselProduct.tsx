@@ -115,120 +115,184 @@ function CarouselProduct() {
 
   // lấy ra các array là list product từ products trên store theo từng tag
 
-  const carouselItem = tagsProducts.map((tag) => {
-    if (loading) {
-      return <h5 className="text-center msgCartTop">Loading...</h5>;
-    } else {
-      const productsForTag = productsByTags[tag?.toString().toLowerCase()];
+  const carouselItem = Array.isArray(tagsProducts)
+    ? tagsProducts.map((tag) => {
+        if (loading) {
+          return <h5 className="text-center msgCartTop">Loading...</h5>;
+        } else {
+          const productsForTag = productsByTags[tag?.toString().toLowerCase()];
 
-      // Thêm điều kiện kiểm tra
-      if (!productsForTag || productsForTag.length === 0) {
-        return null; // Không trả về gì cả nếu không có sản phẩm cho tag này
-      }
-      // const productsForTag = fetchProducts(tag?.toString().toLowerCase());
-      let productShow = getRandomElement(productsForTag);
+          // Thêm điều kiện kiểm tra
+          if (!productsForTag || productsForTag.length === 0) {
+            return null; // Không trả về gì cả nếu không có sản phẩm cho tag này
+          }
+          // const productsForTag = fetchProducts(tag?.toString().toLowerCase());
+          let productShow = getRandomElement(productsForTag);
 
-      if (!productShow) {
-        return null; // Không trả về gì nếu không có sản phẩm được chọn
-      }
-      // console.log(productShow);
-      if (productShow && productsByTags) {
-        return (
-          <Carousel.Item key={productShow.product_id} className="CarouselItem">
-            <ProductCard
-              screen={prependLocalhost(productShow.img[0]) ?? ""}
-              product={productShow}
-            />
-            <Carousel.Caption>
-              <h4 className="CarouselProductText">{productShow.name}</h4>
-              <h4 className="CarouselProductText ">
-                {Changedot(productShow.price)}
-                {productShow.comparative > productShow.price && (
-                  <>
-                    {" "}
-                    <s
-                      style={{
-                        paddingLeft: "5px",
-                        color: "#DADADA",
-                        fontWeight: "400",
-                      }}
-                    >
-                      {Changedot(productShow.comparative)}
-                    </s>
-                    <span
-                      style={{
-                        paddingLeft: "5px",
-                        color: "#FFA500",
-                        fontWeight: "400",
-                      }}
-                    >
-                      {"(Giảm giá "}
-                      {(
-                        100 -
-                        (productShow.price / productShow.comparative) * 100
-                      ).toFixed(0)}
-                      {"%)"}
-                    </span>
-                  </>
-                )}
-              </h4>
-            </Carousel.Caption>
-          </Carousel.Item>
-        );
-      } else {
-        return null;
-      }
-    }
-  });
+          if (!productShow) {
+            return null; // Không trả về gì nếu không có sản phẩm được chọn
+          }
+          // console.log(productShow);
+          if (productShow && productsByTags) {
+            return (
+              <Carousel.Item
+                key={productShow.product_id}
+                className="CarouselItem"
+              >
+                {Array.isArray(productShow.img) &&
+                  productShow.img.length > 0 && (
+                    <ProductCard
+                      screen={prependLocalhost(productShow.img[0]) ?? ""}
+                      product={productShow}
+                    />
+                  )}
+                <Carousel.Caption>
+                  <h4 className="CarouselProductText">{productShow.name}</h4>
+                  <h4 className="CarouselProductText ">
+                    {Changedot(productShow.price)}
+                    {productShow.comparative > productShow.price && (
+                      <>
+                        {" "}
+                        <s
+                          style={{
+                            paddingLeft: "5px",
+                            color: "#DADADA",
+                            fontWeight: "400",
+                          }}
+                        >
+                          {Changedot(productShow.comparative)}
+                        </s>
+                        <span
+                          style={{
+                            paddingLeft: "5px",
+                            color: "#FFA500",
+                            fontWeight: "400",
+                          }}
+                        >
+                          {"(Giảm giá "}
+                          {(
+                            100 -
+                            (productShow.price / productShow.comparative) * 100
+                          ).toFixed(0)}
+                          {"%)"}
+                        </span>
+                      </>
+                    )}
+                  </h4>
+                </Carousel.Caption>
+              </Carousel.Item>
+            );
+          } else {
+            return null;
+          }
+        }
+      })
+    : null;
 
-  const cataloguelItem = tagsProducts.map((tag) => {
-    if (loading) {
-      return <h5 className="text-center msgCartTop">Loading...</h5>;
-    } else {
-      const productsForTag = productsByTags[tag?.toString().toLowerCase()];
+  const [catalogueItems, setCatalogueItems] = useState<(JSX.Element | null)[]>(
+    []
+  );
 
-      // Thêm điều kiện kiểm tra
-      if (!productsForTag || productsForTag.length === 0) {
-        return null; // Không trả về gì cả nếu không có sản phẩm cho tag này
-      }
+  useEffect(() => {
+    const newCatalogueItems: (JSX.Element | null)[] = tagsProducts.map(
+      (tag) => {
+        const productsForTag = productsByTags[tag?.toString().toLowerCase()];
 
-      let productShow = getRandomElement(productsForTag);
+        if (!productsForTag || productsForTag.length === 0) {
+          return null;
+        }
 
-      if (!productShow) {
-        return null; // Không trả về gì nếu không có sản phẩm được chọn
+        let productShow = getRandomElement(productsForTag);
+
+        if (!productShow) {
+          return null;
+        }
+        let urlLink = "/" + tag;
+        let lastItem =
+          Array.isArray(productShow.img) && productShow.img.length > 0
+            ? productShow.img.length - 1
+            : 0;
+
+        if (Array.isArray(productShow.img)) {
+          return (
+            <div
+              onClick={() => {
+                navigate(urlLink);
+              }}
+              className="imgCatalogue"
+              style={{
+                backgroundImage: `url(${prependLocalhost(
+                  productShow.img[lastItem]
+                )})`,
+              }}
+            >
+              <p>Bộ sưu tập</p>
+              <h4>{tag.toLocaleUpperCase()}</h4>
+            </div>
+          );
+        } else {
+          return null;
+        }
       }
-      if (productsForTag && productsForTag.length > 0) {
-        productShow = getRandomElement(productsForTag);
-      }
-      let urlLink = "/" + tag;
-      let lastItem = productShow ? productShow.img.length - 1 : 0;
-      if (productShow && productsByTags) {
-        return (
-          <div
-            // href={urlLink}
-            onClick={() => {
-              navigate(urlLink);
-            }}
-            className="imgCatalogue"
-            style={{
-              backgroundImage: `url(${prependLocalhost(
-                productShow.img[lastItem]
-              )})`,
-            }}
-          >
-            <p>Bộ sưu tập</p>
-            <h4>{tag.toLocaleUpperCase()}</h4>
-          </div>
-        );
-      } else {
-        return null;
-      }
-    }
-  });
+    );
+
+    setCatalogueItems(newCatalogueItems);
+  }, [tagsProducts, productsByTags, navigate]);
+
+  // const cataloguelItem = tagsProducts.map((tag) => {
+  //   if (loading) {
+  //     return <h5 className="text-center msgCartTop">Loading...</h5>;
+  //   } else {
+  //     const productsForTag = productsByTags[tag?.toString().toLowerCase()];
+
+  //     // Thêm điều kiện kiểm tra
+  //     if (!productsForTag || productsForTag.length === 0) {
+  //       return null; // Không trả về gì cả nếu không có sản phẩm cho tag này
+  //     }
+
+  //     let productShow = getRandomElement(productsForTag);
+
+  //     if (!productShow) {
+  //       return null; // Không trả về gì nếu không có sản phẩm được chọn
+  //     }
+
+  //     if (productsForTag && productsForTag.length > 0) {
+  //       productShow = getRandomElement(productsForTag);
+  //     }
+
+  //     let urlLink = "/" + tag;
+  //     let lastItem =
+  //       productShow &&
+  //       Array.isArray(productShow.img) &&
+  //       productShow.img.length > 0
+  //         ? productShow.img.length - 1
+  //         : 0;
+  //     if (productShow && productsByTags && Array.isArray(productShow.img)) {
+  //       return (
+  //         <div
+  //           // href={urlLink}
+  //           onClick={() => {
+  //             navigate(urlLink);
+  //           }}
+  //           className="imgCatalogue"
+  //           style={{
+  //             backgroundImage: `url(${prependLocalhost(
+  //               productShow.img[lastItem]
+  //             )})`,
+  //           }}
+  //         >
+  //           <p>Bộ sưu tập</p>
+  //           <h4>{tag.toLocaleUpperCase()}</h4>
+  //         </div>
+  //       );
+  //     } else {
+  //       return null;
+  //     }
+  //   }
+  // });
 
   if (loading && productsByTags) {
     return <h5 className="text-center msgCartTop">Loading...</h5>;
-    // Thay "Loading..." bằng spinner hoặc hình ảnh gif loader
   } else {
     return (
       <div id="bundleCarouselAndCatalouge">
@@ -241,7 +305,7 @@ function CarouselProduct() {
           {carouselItem}
         </Carousel>
 
-        <div id="catalogueScreen"> {cataloguelItem}</div>
+        <div id="catalogueScreen"> {catalogueItems}</div>
       </div>
     );
   }

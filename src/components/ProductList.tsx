@@ -54,8 +54,8 @@ const ProductList: FC = () => {
         name: searchFilter,
         page: currentPage,
         limit: productsPerPage,
-        maxPrice: priceFromValue,
-        sortType: sortOption,
+        maxPrice: Number(priceFromValue),
+        sortType: Number(sortOption),
         category: link,
       })
       .then((data: any) => {

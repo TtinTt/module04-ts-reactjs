@@ -33,7 +33,7 @@ function OrderFilter() {
   const [searchValue, setSearchValue] = useState<string>("");
 
   const dispatch = useDispatch();
-
+  let key = "left";
   const changeFilter = (value: number) => {
     setSort(value);
     dispatch(filterOrder(value));
@@ -97,7 +97,7 @@ function OrderFilter() {
               </InputGroup>
             </Nav>
             <OverlayTrigger
-              key={"left"}
+              key={key}
               placement={"left"}
               overlay={
                 <Tooltip id={`tooltip-left`}>

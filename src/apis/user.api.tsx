@@ -54,6 +54,37 @@ const sendCodeResetPass = async (
   }
 };
 
+const sentVerificationEmail = async (
+  email: string
+): Promise<UserResponse | ErrorResponse> => {
+  try {
+    const response = await api.put(
+      "/users/verify-email",
+      { email },
+      {
+        headers: getHeaders(),
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+const sentVerificationToken = async (
+  token: string
+): Promise<UserResponse | ErrorResponse> => {
+  try {
+    const response = await api.put("/users/verify-token", { token });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+//NestJs
 const updateUser = async (
   userId: number,
   requestBody: User | FormData | object
@@ -69,6 +100,7 @@ const updateUser = async (
   }
 };
 
+//NestJs
 const register = async (
   requestBody: Record<string, any>
 ): Promise<UserResponse | ErrorResponse> => {
@@ -87,4 +119,6 @@ export default {
   sendCodeResetPass,
   resetPass,
   register,
+  sentVerificationEmail,
+  sentVerificationToken,
 };

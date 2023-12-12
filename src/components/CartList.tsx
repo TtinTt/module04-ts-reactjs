@@ -21,6 +21,7 @@ import { CartItem } from "../types-unEdit/Product";
 import "../css/Cart.css";
 
 import { clearCart } from "../actions/userAction";
+import userApi from "../apis/user.api";
 
 interface Address {
   name: string;
@@ -147,6 +148,20 @@ function CartList() {
       return true;
     }
   };
+  const [isSendEmail, setIsSendEmail] = useState<boolean>(false);
+
+  const handleSentVerificationEmail = async (): Promise<void> => {
+    userLogined &&
+      (await userApi
+        .sentVerificationEmail(userLogined.email)
+        .then((response: any) => {
+          console.log("đã gửi email");
+          setIsSendEmail(true);
+        })
+        .catch((error: any) => {
+          console.log(error);
+        }));
+  };
 
   const handleCreateOrder = () => {
     if (validateAddress(address)) {
@@ -156,7 +171,7 @@ function CartList() {
         cart: cart,
         address: address,
         date: getCurrentTimeString(),
-        status: "0",
+        status: 0,
       };
       console.log(order);
 
@@ -258,6 +273,28 @@ function CartList() {
         </tfoot>
       </Table>
       <div className="mx-auto p-1">
+        {userLogined && userLogined?.verifed !== 1 && (
+          <div>
+            <p style={{ color: "grey", marginBottom: "3px" }}>
+              Bạn chưa thể đặt hàng vì Email của bạn chưa được xác minh!
+            </p>
+            {isSendEmail ? (
+              "Vui lòng kiểm tra email để xác minh sau ít phút nữa!"
+            ) : (
+              <h6>
+                Nếu bạn chưa nhận được Email xác minh, vui lòng bấm{" "}
+                <strong
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    handleSentVerificationEmail();
+                  }}
+                >
+                  Gửi lại Email xác minh.
+                </strong>
+              </h6>
+            )}
+          </div>
+        )}
         {isShowConfirmClearCart == false ? (
           <>
             <Button
@@ -269,13 +306,15 @@ function CartList() {
             >
               Xoá giỏ hàng
             </Button>
-            <Button
-              style={{ width: "180px" }}
-              variant="secondary"
-              onClick={handleShow}
-            >
-              Đặt hàng
-            </Button>
+            {userLogined && userLogined?.verifed == 1 && (
+              <Button
+                style={{ width: "180px" }}
+                variant="secondary"
+                onClick={handleShow}
+              >
+                Đặt hàng
+              </Button>
+            )}
           </>
         ) : (
           ConfirmClearCart()

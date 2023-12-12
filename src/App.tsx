@@ -16,6 +16,7 @@ import PageNotFound from "./pages/PageNotFound";
 // import Admin from "./pages/Admin/Admin";
 // import AdminLogin from "./pages/Admin/AdminLogin";
 import AboutUsPage from "./pages/AboutUsPage";
+import VerifyEmailPage from "./pages/VerifyEmail";
 import QnAPage from "./pages/QnAPage";
 import ResetPass from "./pages/ResetPass";
 import AboutProductPage from "./pages/AboutProductPage";
@@ -78,6 +79,7 @@ const App: FC = () => {
         <Route path="/order" element={<Order />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/aboutUs" element={<AboutUsPage />} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/QnA" element={<QnAPage />} />
         <Route path="/aboutProduct" element={<AboutProductPage />} />
         {/* <Route

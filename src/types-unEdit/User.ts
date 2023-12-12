@@ -17,6 +17,7 @@ export interface User {
 export type UserLogined = Omit<User, "add" | "user_id" | "resetPassword"> & {
   user_id: number;
   add_address: string;
+  [key: string]: any;
 };
 
 export interface UserState {

@@ -27,6 +27,7 @@ import { FormLabel } from "react-bootstrap";
 function UserFilter() {
   const [sort, setSort] = useState<number>(2);
   const dispatch = useDispatch();
+  let key = "key";
 
   useEffect(() => {
     dispatch(inputSearchUser(""));
@@ -86,7 +87,7 @@ function UserFilter() {
               </DropdownButton>
             </Nav>
             <OverlayTrigger
-              key={"left"}
+              key={key}
               placement={"left"}
               overlay={
                 <Tooltip id={`tooltip-left`}>

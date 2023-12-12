@@ -22,6 +22,7 @@ import { Modal } from "react-bootstrap";
 import { Carousel } from "react-bootstrap";
 import "../css/ProductCard.css";
 import "./../css/CarouselProduct.css";
+import nonProductImg from "../imgs/productImg.png";
 
 interface ProductCardProps {
   screen: string;
@@ -29,7 +30,10 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
-  const [currentImg, setCurrentImg] = useState(product.img[0]);
+  const initialImg =
+    Array.isArray(product.img) && product.img.length > 0 ? product.img[0] : "";
+  const [currentImg, setCurrentImg] = useState(initialImg);
+
   const userLogined = useSelector(
     (state: State) => state.userReducer.userLogined
   );
@@ -40,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setCurrentImg(product.img[0]);
+    setCurrentImg(initialImg);
   }, [product]);
 
   const handleChangeQuantity = (event: ChangeEvent<HTMLInputElement>) => {
@@ -74,14 +78,30 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
     setIndex(selectedIndex);
   };
 
-  const renderCarousel = product.img.map((img, index) => (
-    <Carousel.Item key={index}>
+  const renderCarousel =
+    Array.isArray(product.img) && product.img.length > 0 ? (
+      product.img.map((img, index) => (
+        <Carousel.Item key={index}>
+          <img
+            className="productImgLarger d-block w-100"
+            src={prependLocalhost(img) ?? ""}
+            onError={(e) => {
+              const imgElement = e.target as HTMLImageElement;
+              imgElement.src = nonProductImg; // Thiết lập src của đối tượng hình ảnh
+            }}
+          />
+        </Carousel.Item>
+      ))
+    ) : (
       <img
         className="productImgLarger d-block w-100"
-        src={prependLocalhost(img) ?? ""}
+        src={nonProductImg}
+        onError={(e) => {
+          const imgElement = e.target as HTMLImageElement;
+          imgElement.src = nonProductImg; // Thiết lập src của đối tượng hình ảnh
+        }}
       />
-    </Carousel.Item>
-  ));
+    );
 
   return (
     <>
@@ -95,33 +115,58 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
         </div>
       ) : (
         <Card style={{ width: "310px" }} className="ProductCardThumb">
-          <div>
-            <Card.Img
-              onClick={handleShow}
-              className="productImgThumb"
-              variant="top"
-              src={prependLocalhost(currentImg) ?? ""}
-              onMouseOver={() => {
-                let item = 1;
-                if (product.img.length < 2) {
-                  item = 0;
-                }
-                setCurrentImg(product.img[item]);
-              }}
-              onMouseOut={() => setCurrentImg(product.img[0])}
-            />
-          </div>
+          {
+            <div>
+              <Card.Img
+                onClick={() => {
+                  !(product.price < 10000 && product.description.length < 15) &&
+                    handleShow();
+                }}
+                className="productImgThumb"
+                variant="top"
+                src={prependLocalhost(currentImg) ?? nonProductImg}
+                onError={(e) => {
+                  const imgElement = e.target as HTMLImageElement;
+                  imgElement.src = nonProductImg; // Thiết lập src của đối tượng hình ảnh
+                }}
+                onMouseOver={() => {
+                  let item = 1;
+                  if (product.img.length < 2) {
+                    item = 0;
+                  }
+
+                  setCurrentImg(product.img[item]);
+                }}
+                onMouseOut={() => setCurrentImg(product.img[0])}
+              />
+            </div>
+          }
           <Card.Body>
-            <div onClick={handleShow}>
+            <div
+              onClick={() => {
+                !(product.price < 10000 && product.description.length < 15) &&
+                  handleShow();
+              }}
+              // disabled={
+              //   product.price < 10000 && product.description.length < 15
+              // }
+            >
               <OverlayTrigger
                 // style={{ width: "320px !importan" }}
                 key={"top"}
                 placement={"top"}
                 overlay={
                   <Tooltip id={`tooltip-top`}>
-                    <strong>{product.name} </strong>
+                    <strong>
+                      {product.price < 10000 && product.description.length < 15
+                        ? "Sản phẩm sắp ra mắt"
+                        : product.name}
+                    </strong>
                     <br></br>
-                    {product.description + " Click để xem thông tin sản phẩm."}
+                    {product.price < 10000 && product.description.length < 15
+                      ? "Sản phẩm chưa sẵn sàng để nhận đơn hàng"
+                      : TruncateString(product.description, 100) +
+                        " Click để xem thông tin sản phẩm."}
                   </Tooltip>
                 }
               >
@@ -132,7 +177,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
                         textAlign: "center",
                       }}
                     >
-                      {TruncateString(product.name, 29)}
+                      {product.price < 10000 && product.description.length < 15
+                        ? "Sản phẩm sắp ra mắt!"
+                        : TruncateString(product.name, 29)}
                     </h6>
                   </Card.Title>
                   <Card.Text>
@@ -143,7 +190,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
                         textAlign: "center",
                       }}
                     >
-                      {Changedot(product.price)}
+                      {product.price < 10000 && product.description.length < 15
+                        ? ""
+                        : Changedot(product.price)}
                       {product.comparative > product.price && (
                         <>
                           {" "}
@@ -186,41 +235,50 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
                 alignItems: "center",
               }}
             >
-              {link == "/" && (
-                <OverlayTrigger
-                  // style={{ width: "320px !importan" }}
-                  key={"right"}
-                  placement={"right"}
-                  overlay={
-                    <Tooltip id={`tooltip-right`}>
-                      Xem các sản phẩm tương tự trong bộ sưu tập{" "}
-                      <strong> {product.tag[0].toUpperCase()}</strong>{" "}
-                    </Tooltip>
+              {link == "/" &&
+                Array.isArray(product.tag) &&
+                product.tag.length > 0 && (
+                  <OverlayTrigger
+                    // style={{ width: "320px !importan" }}
+                    key={"right"}
+                    placement={"right"}
+                    overlay={
+                      <Tooltip id={`tooltip-right`}>
+                        Xem các sản phẩm tương tự trong bộ sưu tập{" "}
+                        <strong> {product.tag[0].toUpperCase()}</strong>{" "}
+                      </Tooltip>
+                    }
+                  >
+                    <Link to={"/" + product.tag[0].toLowerCase()}>
+                      <p
+                        onClick={handleClose}
+                        style={{
+                          paddingTop: "15px",
+                          color: "grey",
+                        }}
+                      >
+                        Tương tự...
+                      </p>
+                    </Link>
+                  </OverlayTrigger>
+                )}
+
+              {
+                <Button
+                  variant="light"
+                  onClick={handleAdd}
+                  style={{
+                    float: "right",
+                  }}
+                  disabled={
+                    product.price < 10000 && product.description.length < 15
                   }
                 >
-                  <Link to={"/" + product.tag[0].toLowerCase()}>
-                    <p
-                      onClick={handleClose}
-                      style={{
-                        paddingTop: "15px",
-                        color: "grey",
-                      }}
-                    >
-                      Tương tự...
-                    </p>
-                  </Link>
-                </OverlayTrigger>
-              )}
-
-              <Button
-                variant="light"
-                onClick={handleAdd}
-                style={{
-                  float: "right",
-                }}
-              >
-                Thêm vào giỏ hàng
-              </Button>
+                  {product.price < 10000 && product.description.length < 15
+                    ? "Chưa nhận đặt hàng"
+                    : "Thêm vào giỏ hàng"}
+                </Button>
+              }
             </div>
           </Card.Body>
         </Card>
@@ -274,7 +332,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
                   // alignItems: "center",
                 }}
               >
-                {link == "/" ? (
+                {link == "/" &&
+                Array.isArray(product.tag) &&
+                product.tag.length > 0 ? (
                   <OverlayTrigger
                     key={"right"}
                     placement={"right"}

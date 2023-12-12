@@ -16,6 +16,8 @@ interface UserButtonProps {
 }
 
 const UserButton: FC<UserButtonProps> = ({ link }) => {
+  let key = "key";
+
   let countCart = 0;
   const userLogined = useSelector(
     (state: State) => state.userReducer.userLogined
@@ -34,21 +36,23 @@ const UserButton: FC<UserButtonProps> = ({ link }) => {
   // console.log(!link.includes("/admin"));
 
   const handleLogout = () => {
-    authApi
-      .logout()
-      .then((response) => {
-        dispatch(logoutUser());
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    dispatch(logoutUser());
+
+    // authApi
+    //   .logout()
+    //   .then((response) => {
+    //     dispatch(logoutUser());
+    //     window.location.reload();
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
 
     // console.log("LOGOUT");
   };
 
   const handleLogoutAdmin = () => {
-    localStorage.removeItem("X-API-Key-Admin");
+    // localStorage.removeItem("adminToken");
     dispatch(logoutAdmin());
     // console.log("LOGOUT ADMIN");
   };
@@ -145,7 +149,7 @@ const UserButton: FC<UserButtonProps> = ({ link }) => {
         }}
       >
         <OverlayTrigger
-          key={"left"}
+          key={key}
           placement={"left"}
           overlay={
             <Tooltip id={`tooltip-left`}>

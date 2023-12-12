@@ -13,7 +13,7 @@ export const loginUser = (user: User | null): PayloadAction<User | null> => ({
 
 export const logoutUser = (): PayloadAction<null> => {
   localStorage.removeItem("userLogined");
-  localStorage.removeItem("X-API-Key");
+  localStorage.removeItem("userToken");
   return {
     type: "LOGOUT_USER",
     payload: null,

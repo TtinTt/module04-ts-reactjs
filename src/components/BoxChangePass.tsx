@@ -74,7 +74,11 @@ const BoxChangePass: React.FC = () => {
     formData.append("password", user.password);
     userLogined?.user_id &&
       userApi
-        .updateUser(userLogined.user_id, formData)
+        .updateUser(
+          userLogined.user_id,
+          // { password: user.password }
+          formData
+        )
         .then(() => {
           authApi
             .getAuth()
@@ -84,7 +88,7 @@ const BoxChangePass: React.FC = () => {
             })
             .catch((error) => {
               dispatch(loginUser(null));
-              localStorage.removeItem("X-API-Key");
+              localStorage.removeItem("userToken");
               console.log(error.response?.status, error.response?.statusText);
             });
         })
@@ -117,7 +121,7 @@ const BoxChangePass: React.FC = () => {
           .then((response) => {
             // dispatch(login(response.token));
             console.log(response);
-            window.localStorage.setItem("X-API-Key", response.token);
+            window.localStorage.setItem("userToken", response.token);
             changePassByApi();
             setShow(true);
           })

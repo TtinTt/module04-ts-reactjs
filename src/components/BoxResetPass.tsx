@@ -89,7 +89,7 @@ const BoxResetPass: FC = () => {
           })
           .catch((error) => {
             dispatch(loginUser(null));
-            localStorage.removeItem("X-API-Key");
+            localStorage.removeItem("userToken");
             console.log(error.response?.status, error.response?.statusText);
           });
       })

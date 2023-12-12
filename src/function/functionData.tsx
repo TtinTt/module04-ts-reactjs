@@ -56,27 +56,27 @@ type OrderStatusesType = {
 
 // Define the ORDER_STATUSES object
 const ORDER_STATUSES: OrderStatusesType = {
-  0: {
+  "0": {
     message: "Đang xử lý thông tin đơn hàng",
     color: "#D7D7D7",
   },
-  1: {
+  "1": {
     message: "Đơn hàng đang được chuẩn bị",
     color: "PaleGoldenRod",
   },
-  2: {
+  "2": {
     message: "Đơn hàng đang được giao tới",
     color: "PaleGoldenRod",
   },
-  3: {
+  "3": {
     message: "Đơn hàng đã được giao thành công",
     color: "PaleGoldenRod",
   },
-  4: {
+  "4": {
     message: "Giao hàng không thành công và đang chuyển hoàn",
     color: "PaleGoldenRod",
   },
-  5: {
+  "5": {
     message: "Đơn hàng đã được chuyển hoàn",
     color: "#ffdab9",
   },
@@ -122,10 +122,14 @@ export const fetchProducts = async (
 export const getStatus = (
   status: number | string | null | undefined
 ): string => {
-  if (status === null || status === undefined)
+  if (status === null || status === undefined) {
     return "Trạng thái không xác định";
+  }
 
   const orderStatus = status?.toString();
+  console.log("check status", orderStatus);
+  console.log("check status", ORDER_STATUSES[orderStatus]?.message);
+
   return ORDER_STATUSES[orderStatus]?.message || "Trạng thái không xác định";
 };
 
@@ -178,15 +182,15 @@ export const useClearLogined = (): ((type: string) => void) => {
 
   const clearLogined = (type: string) => {
     if (type === "user") {
-      localStorage.removeItem("X-API-Key");
+      localStorage.removeItem("userToken");
       dispatch(loginUser(null));
     } else if (type === "admin") {
-      localStorage.removeItem("X-API-Key-Admin");
+      localStorage.removeItem("adminToken");
       dispatch(loginAdmin(null));
     } else if (type === "all") {
-      localStorage.removeItem("X-API-Key");
+      localStorage.removeItem("userToken");
       dispatch(loginUser(null));
-      localStorage.removeItem("X-API-Key-Admin");
+      localStorage.removeItem("adminToken");
       dispatch(loginAdmin(null));
     }
   };
@@ -196,12 +200,12 @@ export const useClearLogined = (): ((type: string) => void) => {
 
 export const getDaysDifference = (date: string | null): number | string => {
   if (!date) {
-    return "";
+    return Infinity;
   }
 
   let dateString = date?.toString();
   if (dateString == "") {
-    return "";
+    return Infinity;
   } else {
     const [time, date] = dateString.split(" ");
     const [hour, minute] = time.slice(0, -1).split(":");
@@ -218,6 +222,7 @@ export const getDaysDifference = (date: string | null): number | string => {
 
     const differenceInTime = now.getTime() - dateObject.getTime();
     const differenceInDays = differenceInTime / (1000 * 3600);
+    console.log("chênh lệch", Math.abs(Math.round(differenceInDays)));
 
     return Math.abs(Math.round(differenceInDays));
   }

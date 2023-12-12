@@ -49,21 +49,8 @@ const logout = async (): Promise<AuthResponse | ErrorResponse> => {
   }
 };
 
-const register = async (
-  requestBody: Record<string, any>
-): Promise<AuthResponse | ErrorResponse> => {
-  try {
-    const response = await api.post("/users", requestBody);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
 export default {
   login,
   getAuth,
   logout,
-  register,
 };

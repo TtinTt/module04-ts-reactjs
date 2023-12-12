@@ -10,6 +10,7 @@ import {
   prependLocalhost,
   isArrayContainingObjects,
 } from "../function/functionData";
+import dfAvatar from "../imgs/dfAvatar.gif";
 
 import { UserLogined, UserState } from "../types-unEdit/User";
 import { State } from "../types-unEdit/StateReducer";
@@ -30,6 +31,7 @@ const BuyerInfo: React.FC = () => {
     phone: userLogined?.phone,
     img: userLogined?.img,
   });
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   useEffect(() => {
     setInfo({
@@ -56,26 +58,52 @@ const BuyerInfo: React.FC = () => {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    setImgScr(prependLocalhost(userLogined?.img || "") || "");
+    setImgScr(prependLocalhost(userLogined?.img || "avatar/0.gif") || "");
   }, [userLogined]);
 
-  const handleChangeinfo = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const target = event.target as HTMLInputElement;
-    const value =
-      target.ariaLabel === "img" && target.files
-        ? target.files[0]
-        : target.value;
-    const newInfo = {
-      ...info,
-      [target.ariaLabel as string]: value,
-    };
-    console.log(newInfo);
-    setInfo(newInfo);
-  };
+  // const handleChangeinfo = (
+  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const target = event.target as HTMLInputElement;
+  //   const value =
+  //     target.ariaLabel === "img" && target.files
+  //       ? target.files[0]
+  //       : target.value;
 
+  //   const newInfo = {
+  //     ...info,
+  //     [target.ariaLabel as string]: value,
+  //   };
+
+  //   console.log(newInfo);
+  //   setInfo(newInfo);
+  // };
+  const [isSendEmail, setIsSendEmail] = useState<boolean>(false);
+
+  const handleSentVerificationEmail = async (): Promise<void> => {
+    userLogined &&
+      (await userApi
+        .sentVerificationEmail(userLogined.email)
+        .then((response: any) => {
+          console.log("đã gửi email");
+          setIsSendEmail(true);
+        })
+        .catch((error: any) => {
+          console.log(error);
+        }));
+  };
+  const handleChangeinfo = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { ariaLabel, value, files } = event.target;
+
+    if (ariaLabel === "img" && files) {
+      setSelectedImage(files[0]);
+    } else if (ariaLabel) {
+      setInfo({ ...info, [ariaLabel.toString()]: value });
+    }
+  };
   const handleSaveInfo = () => {
+    console.log("infoinfoinfo", info);
+
     const errs = validate(info);
     if (errs.size === 0) {
       const formData = new FormData();
@@ -84,9 +112,12 @@ const BuyerInfo: React.FC = () => {
       formData.append("bday", info.bday || "");
       formData.append("name", info.name || "");
       formData.append("phone", info.phone?.toString() || "");
-      if (info.img) {
-        formData.append("img", info.img);
+
+      if (selectedImage) {
+        formData.append("img", selectedImage);
       }
+
+      console.log("info.img", info.img);
 
       userApi
         .updateUser(userLogined?.user_id!, formData)
@@ -99,7 +130,7 @@ const BuyerInfo: React.FC = () => {
             })
             .catch((error) => {
               dispatch(loginUser(null));
-              localStorage.removeItem("X-API-Key");
+              localStorage.removeItem("userToken");
               window.location.reload();
             });
         })
@@ -129,7 +160,15 @@ const BuyerInfo: React.FC = () => {
         <h4>Thông tin người dùng</h4>
         <div>
           {imgScr == "" ? null : (
-            <img id="user-img" className="text-center" src={imgScr} />
+            <img
+              id="user-img"
+              className="text-center"
+              src={imgScr}
+              onError={(e) => {
+                const imgElement = e.target as HTMLImageElement;
+                imgElement.src = dfAvatar; // Thiết lập src của đối tượng hình ảnh
+              }}
+            />
           )}
           <InputGroup id="user-info" className="mb-3 mx-auto">
             <InputGroup className="mb-3">
@@ -210,6 +249,32 @@ const BuyerInfo: React.FC = () => {
               </Button>
             </div>
           </InputGroup>
+          {userLogined && userLogined?.verifed !== 1 && (
+            <div>
+              <p style={{ color: "grey", marginBottom: "3px" }}>
+                Bạn chưa thể đặt hàng vì Email của bạn chưa được xác minh!
+              </p>
+              {isSendEmail ? (
+                <p>
+                  Vui lòng kiểm tra email{" "}
+                  <strong>{userLogined.email.toLowerCase()}</strong> để xác minh
+                  sau ít phút nữa!
+                </p>
+              ) : (
+                <p>
+                  Nếu bạn chưa nhận được Email xác minh, vui lòng bấm{" "}
+                  <strong
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      handleSentVerificationEmail();
+                    }}
+                  >
+                    Gửi lại Email xác minh.
+                  </strong>
+                </p>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

@@ -33,24 +33,24 @@ function NavbarTop() {
   const userLogined = useSelector(
     (state: State) => state.userReducer.userLogined
   );
-  const APIKey = localStorage.getItem("X-API-Key");
-  const APIKeyAdmin = localStorage.getItem("X-API-Key-Admin");
+  const UserToken = localStorage.getItem("userToken");
+  const AdminToken = localStorage.getItem("adminToken");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getTagsProducts = useGetTagsProducts();
 
   useEffect(() => {
-    console.log("check API", APIKey, "check API", APIKeyAdmin);
+    console.log("check API", UserToken, "check API", AdminToken);
 
-    if (APIKey === null || APIKey === undefined) {
+    if (UserToken === null || UserToken === undefined) {
       dispatch(loginUser(null));
     }
-    if (APIKeyAdmin === null || APIKeyAdmin === undefined) {
+    if (AdminToken === null || AdminToken === undefined) {
       dispatch(loginAdmin(null));
     }
 
-    (APIKeyAdmin || APIKey) &&
+    (AdminToken || UserToken) &&
       authApi
         .getAuth()
         .then((response) => {
@@ -77,7 +77,7 @@ function NavbarTop() {
             }
           }
 
-          if (response.admin?.admin_id) {
+          if (response.admin?.admin_id && response.admin?.status === 1) {
             dispatch(loginAdmin(response.admin));
           } else {
             clearLogined("admin");

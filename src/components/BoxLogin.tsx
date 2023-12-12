@@ -57,11 +57,16 @@ export default function BoxLogin() {
       authApi
         .login(user.email, user.password, "customer")
         .then((response) => {
-          window.localStorage.setItem("X-API-Key", response.token);
+          console.log("response login:", response);
+          console.log("response.token login:", response.token);
+
+          window.localStorage.setItem("userToken", response.token);
           navigate("/");
         })
         .catch((error) => {
-          if (error.response?.status === "406") {
+          console.log("response login error:", error);
+
+          if (error.response?.status == "406") {
             setError({
               isShowStatus: true,
               status: true,

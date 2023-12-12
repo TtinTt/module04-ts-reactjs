@@ -44,11 +44,12 @@ const userReducer = createReducer(initialState, {
       // state.users = updatedUser;
     }
   },
+
   ADD_TO_CART: (state, action: PayloadAction<CartItem>) => {
     if (state.userLogined) {
       let flag = false;
-
-      const updatedATC = state.userLogined.cart.map((product) => {
+      let updatedATC: CartItem[] = [];
+      updatedATC = state.userLogined.cart?.map((product) => {
         if (product.product_id === action.payload.product_id) {
           flag = true;
           return {
@@ -79,6 +80,7 @@ const userReducer = createReducer(initialState, {
       state.users = updatedCartUser;
     }
   },
+
   DELETE_FROM_CART: (state, action: PayloadAction<number>) => {
     if (state.userLogined) {
       const updatedATC = state.userLogined.cart.filter(
