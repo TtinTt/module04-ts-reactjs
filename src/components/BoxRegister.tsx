@@ -24,6 +24,8 @@ interface ErrorType {
 export default function BoxRegister() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isRegister, setIsRegister] = useState<boolean>(false);
+  const [countdown, setCountdown] = useState<number>(5);
 
   const userLogined = useSelector<State, UserLogined | null>(
     (state) => state.userReducer.userLogined
@@ -59,6 +61,41 @@ export default function BoxRegister() {
     setError(validationError);
   };
 
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isRegister && countdown > 0) {
+      timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+    } else if (countdown === 0) {
+      authApi
+        .login(user.email, user.password, "customer")
+        .then((response) => {
+          console.log("response login:", response);
+          console.log("response.token login:", response.token);
+          window.localStorage.setItem("userToken", response.token);
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log("response login error:", error);
+          if (error.response?.status == "406") {
+            setError({
+              isShowStatus: true,
+              status: true,
+              errorMsg:
+                "Tài khoản bị vô hiệu hóa, vui lòng liên hệ với quản trị viên để biết thêm thông tin.",
+            });
+          } else {
+            setError({
+              isShowStatus: true,
+              status: true,
+              errorMsg: "Email không tồn tại hoặc mật khẩu không chính xác.",
+            });
+          }
+        });
+    }
+
+    return () => clearTimeout(timer);
+  }, [isRegister, countdown, navigate]);
+
   const handleSubmit = async (event: React.FormEvent) => {
     console.log(user);
 
@@ -72,7 +109,8 @@ export default function BoxRegister() {
       userApi
         .register({ email: user.email, password: user.password })
         .then((response) => {
-          navigate("/login");
+          setIsRegister(true);
+          // navigate("/login");
         })
         .catch((error) => {
           // alert(error.response.statusText);
@@ -161,16 +199,44 @@ export default function BoxRegister() {
             id="confirmPassword"
           />
         </div>
-        <h6 style={{ color: "Grey", textAlign: "center" }}>
-          Nếu bạn đã có tài khoản, vui lòng
-          <Link to="/login">
-            <span
-              style={{ color: "Black", paddingLeft: "5px", cursor: "pointer" }}
+        {!isRegister ? (
+          <h6 style={{ color: "Grey", textAlign: "center" }}>
+            Nếu bạn đã có tài khoản, vui lòng
+            <Link to="/login">
+              <span
+                style={{
+                  color: "Black",
+                  paddingLeft: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                đăng nhập
+              </span>
+            </Link>
+          </h6>
+        ) : (
+          <>
+            <p
+              style={{
+                color: "Grey",
+                textAlign: "center",
+                marginBottom: "3px",
+              }}
             >
-              đăng nhập
-            </span>
-          </Link>
-        </h6>
+              Đăng ký thành công! Chuyển đến trang chủ sau {countdown} giây.
+            </p>
+            <p
+              style={{
+                color: "Grey",
+                textAlign: "center",
+                // marginBottom: "3px",
+              }}
+            >
+              Chúng tôi đã gửi một Email xác nhận đến{" "}
+              <strong>{user.email}</strong>.
+            </p>
+          </>
+        )}
 
         {error.isShowStatus == true && error.status == true && (
           <p

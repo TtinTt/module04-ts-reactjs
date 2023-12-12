@@ -119,8 +119,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
             <div>
               <Card.Img
                 onClick={() => {
-                  !(product.price < 10000 && product.description.length < 15) &&
-                    handleShow();
+                  !(product.description.length < 15) && handleShow();
                 }}
                 className="productImgThumb"
                 variant="top"
@@ -144,8 +143,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
           <Card.Body>
             <div
               onClick={() => {
-                !(product.price < 10000 && product.description.length < 15) &&
-                  handleShow();
+                !(product.description.length < 15) && handleShow();
               }}
               // disabled={
               //   product.price < 10000 && product.description.length < 15
@@ -158,12 +156,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
                 overlay={
                   <Tooltip id={`tooltip-top`}>
                     <strong>
-                      {product.price < 10000 && product.description.length < 15
+                      {product.description.length < 15
                         ? "Sản phẩm sắp ra mắt"
                         : product.name}
                     </strong>
                     <br></br>
-                    {product.price < 10000 && product.description.length < 15
+                    {product.description.length < 15
                       ? "Sản phẩm chưa sẵn sàng để nhận đơn hàng"
                       : TruncateString(product.description, 100) +
                         " Click để xem thông tin sản phẩm."}
@@ -177,7 +175,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
                         textAlign: "center",
                       }}
                     >
-                      {product.price < 10000 && product.description.length < 15
+                      {product.description.length < 15
                         ? "Sản phẩm sắp ra mắt!"
                         : TruncateString(product.name, 29)}
                     </h6>
@@ -190,7 +188,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
                         textAlign: "center",
                       }}
                     >
-                      {product.price < 10000 && product.description.length < 15
+                      {product.description.length < 15
                         ? ""
                         : Changedot(product.price)}
                       {product.comparative > product.price && (
@@ -270,11 +268,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
                   style={{
                     float: "right",
                   }}
-                  disabled={
-                    product.price < 10000 && product.description.length < 15
-                  }
+                  disabled={product.description.length < 15}
                 >
-                  {product.price < 10000 && product.description.length < 15
+                  {product.description.length < 15
                     ? "Chưa nhận đặt hàng"
                     : "Thêm vào giỏ hàng"}
                 </Button>
