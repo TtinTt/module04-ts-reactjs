@@ -156,9 +156,9 @@ const BuyerInfo: React.FC = () => {
 
   return (
     <>
-      <div className="text-center">
+      <div className="text-center" style={{ marginTop: "12px" }}>
         <h4>Thông tin người dùng</h4>
-        <div>
+        <div style={{ marginTop: "-30px" }}>
           {imgScr == "" ? null : (
             <img
               id="user-img"
@@ -173,14 +173,20 @@ const BuyerInfo: React.FC = () => {
           <InputGroup id="user-info" className="mb-3 mx-auto">
             <InputGroup className="mb-3">
               <InputGroup.Text id="basic-addon1">Email</InputGroup.Text>
-              <Form.Control
-                disabled
-                // placeholder="Email của bạn"
-                aria-label="email"
-                aria-describedby="basic-addon1"
-                type="email"
-                value={userLogined?.email}
-              />
+              {userLogined && (
+                <Form.Control
+                  disabled
+                  // placeholder="Email của bạn"
+                  aria-label="email"
+                  aria-describedby="basic-addon1"
+                  type="email"
+                  value={
+                    userLogined.verifed == 1
+                      ? `${userLogined.email}`
+                      : `${userLogined.email} (Chưa xác minh)`
+                  }
+                />
+              )}
             </InputGroup>
             <InputGroup className="mb-3">
               <InputGroup.Text id="basic-addon1">Tên</InputGroup.Text>
@@ -299,7 +305,11 @@ const BuyerInfo: React.FC = () => {
                 aria-label="email"
                 aria-describedby="basic-addon1"
                 type="email"
-                value={info.email}
+                value={
+                  info.verifed == 1
+                    ? `${info.email}`
+                    : `${info.email} (Chưa xác minh)`
+                }
                 onChange={handleChangeinfo}
               />
             </InputGroup>
