@@ -48,6 +48,8 @@ function CartList() {
   });
   const [isShowConfirmClearCart, setIsShowConfirmClearCart] = useState(false);
   const [isShowError, setIsShowError] = useState(false);
+  const [isOrdered, setIsOrdered] = useState(false);
+  const [countdown, setCountdown] = useState<number>(5);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -180,8 +182,8 @@ function CartList() {
         .then(() => {
           // dispatch(register(response.token));
           handleClearCart();
+          setIsOrdered(true);
           handleClose();
-          navigate("/order");
         })
         .catch((error) => {
           console.log(error.response?.statusText);
@@ -192,11 +194,51 @@ function CartList() {
       setIsShowError(true);
     }
   };
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isOrdered && countdown > 0) {
+      timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+    } else if (countdown === 0) {
+      navigate("/order");
+    }
+    return () => clearTimeout(timer);
+  }, [isOrdered, countdown, navigate]);
 
-  return cart.length == 0 ? (
+  return cart.length == 0 && !isOrdered ? (
     <h5 className="text-center msgCartTop">
       Giỏ hàng của bạn không có sản phẩm nào.
     </h5>
+  ) : isOrdered && userLogined ? (
+    <div className="text-center msgCartTop">
+      <h5
+        style={{
+          color: "Grey",
+          textAlign: "center",
+          // marginBottom: "3px",
+        }}
+      >
+        Đặt hàng thành công!
+      </h5>
+      <h6
+        style={{
+          color: "Grey",
+          textAlign: "center",
+          // marginBottom: "3px",
+        }}
+      >
+        Chúng tôi đã gửi một Email xác nhận đến{" "}
+        <strong>{userLogined.email}</strong>
+      </h6>
+      <h6
+        style={{
+          color: "Grey",
+          textAlign: "center",
+          // marginBottom: "3px",
+        }}
+      >
+        Chuyển đến trang đơn hàng sau {countdown} giây.
+      </h6>
+    </div>
   ) : (
     <div className="text-center">
       <Table striped bordered hover>

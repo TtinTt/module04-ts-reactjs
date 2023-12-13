@@ -119,7 +119,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
             <div>
               <Card.Img
                 onClick={() => {
-                  !(product.description.length < 15) && handleShow();
+                  !(
+                    product.description.length < 15 || product.img.length == 0
+                  ) && handleShow();
                 }}
                 className="productImgThumb"
                 variant="top"
@@ -143,10 +145,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
           <Card.Body>
             <div
               onClick={() => {
-                !(product.description.length < 15) && handleShow();
+                !(product.description.length < 15 || product.img.length == 0) &&
+                  handleShow();
               }}
               // disabled={
-              //   product.price < 10000 && product.description.length < 15
+              //   product.price < 10000 && product.description.length < 15 ||(product.img.length ==00)
               // }
             >
               <OverlayTrigger
@@ -156,12 +159,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
                 overlay={
                   <Tooltip id={`tooltip-top`}>
                     <strong>
-                      {product.description.length < 15
+                      {product.description.length < 15 ||
+                      product.img.length == 0
                         ? "Sản phẩm sắp ra mắt"
                         : product.name}
                     </strong>
                     <br></br>
-                    {product.description.length < 15
+                    {product.description.length < 15 || product.img.length == 0
                       ? "Sản phẩm chưa sẵn sàng để nhận đơn hàng"
                       : TruncateString(product.description, 100) +
                         " Click để xem thông tin sản phẩm."}
@@ -175,7 +179,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
                         textAlign: "center",
                       }}
                     >
-                      {product.description.length < 15
+                      {product.description.length < 15 ||
+                      product.img.length == 0
                         ? "Sản phẩm sắp ra mắt!"
                         : TruncateString(product.name, 29)}
                     </h6>
@@ -188,7 +193,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
                         textAlign: "center",
                       }}
                     >
-                      {product.description.length < 15
+                      {product.description.length < 15 ||
+                      product.img.length == 0
                         ? ""
                         : Changedot(product.price)}
                       {product.comparative > product.price && (
@@ -268,9 +274,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ screen, product }) => {
                   style={{
                     float: "right",
                   }}
-                  disabled={product.description.length < 15}
+                  disabled={
+                    product.description.length < 15 || product.img.length == 0
+                  }
                 >
-                  {product.description.length < 15
+                  {product.description.length < 15 || product.img.length == 0
                     ? "Chưa nhận đặt hàng"
                     : "Thêm vào giỏ hàng"}
                 </Button>
